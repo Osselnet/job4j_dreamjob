@@ -12,7 +12,7 @@ public class PostStore {
     private static final PostStore INST = new PostStore();
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
-    private static final AtomicInteger postId = new AtomicInteger(3);
+    private static final AtomicInteger POST_ID = new AtomicInteger(3);
 
     private PostStore() {
         posts.put(1, new Post(1, "Junior Java Job", "Разрабатывать платформу обслуживания автопарка."));
@@ -29,7 +29,7 @@ public class PostStore {
     }
 
     public void addPost(Post post) {
-        post.setId(postId.incrementAndGet());
+        post.setId(POST_ID.incrementAndGet());
         posts.put(post.getId(), post);
     }
 }
