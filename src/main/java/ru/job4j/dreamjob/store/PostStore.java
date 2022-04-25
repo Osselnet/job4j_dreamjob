@@ -28,8 +28,16 @@ public class PostStore {
         return posts.values();
     }
 
-    public void addPost(Post post) {
+    public void add(Post post) {
         post.setId(POST_ID.incrementAndGet());
-        posts.put(post.getId(), post);
+        posts.putIfAbsent(post.getId(), post);
+    }
+
+    public Post findById(int id) {
+        return posts.get(id);
+    }
+
+    public void update(Post post) {
+        posts.replace(post.getId(), post);
     }
 }
