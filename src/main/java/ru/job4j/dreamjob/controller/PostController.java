@@ -9,7 +9,7 @@ import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.store.PostStore;
 
 @Controller
-public class PostControl {
+public class PostController {
 
     private final PostStore store = PostStore.instOf();
 
@@ -26,9 +26,8 @@ public class PostControl {
     }
 
     @PostMapping("/formAddPost")
-    public String addPost(@ModelAttribute Post post, Model model) {
+    public String addPost(@ModelAttribute Post post) {
         store.addPost(post);
-        model.addAttribute("post", post);
-        return "addPost";
+        return "redirect:/posts";
     }
 }
