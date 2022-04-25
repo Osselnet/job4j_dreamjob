@@ -32,4 +32,13 @@ public class CandidateStore {
         candidate.setId(CANDIDATE_ID.incrementAndGet());
         candidates.put(candidate.getId(), candidate);
     }
+
+    public Candidate findById(int id) {
+        return candidates.get(id);
+    }
+
+    public void update(Candidate candidate) {
+        candidates.replace(candidate.getId(), candidate);
+    }
+
 }

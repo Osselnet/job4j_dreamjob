@@ -4,8 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dreamjob.model.Candidate;
+import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.store.CandidateStore;
 
 @Controller
@@ -19,16 +21,26 @@ public class CandidateController {
     }
 
     @GetMapping("/formAddCandidate")
-    public String postForm(Model model) {
+    public String formCandidate(Model model) {
         model.addAttribute("candidate", new Candidate());
         return "addCandidate";
     }
 
     @PostMapping("/formAddCandidate")
-    public String addPost(@ModelAttribute Candidate candidate, Model model) {
+    public String addCandidate(@ModelAttribute Candidate candidate, Model model) {
         store.addCandidate(candidate);
         model.addAttribute("candidate", candidate);
-        return "addCandidate";
+        return "redirect:/candidates";
+    }
+    @GetMapping("/formUpdateCandidate/{candidateId}")
+    public String formUpdateCandidate(Model model, @PathVariable("candidateId") int id) {
+        model.addAttribute("candidate", store.findById(id));
+        return "updateCandidate";
     }
 
+    @PostMapping("/updateCandidate")
+    public String updateCandidate(@ModelAttribute Candidate candidate) {
+        store.update(candidate);
+        return "redirect:/candidates";
+    }
 }
