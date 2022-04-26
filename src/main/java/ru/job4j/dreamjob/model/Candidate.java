@@ -16,7 +16,6 @@ public class Candidate {
     }
 
     public Candidate() {
-
     }
 
     public LocalDate getCreated() {
