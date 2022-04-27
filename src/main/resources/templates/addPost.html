@@ -48,6 +48,10 @@
                         <label>Описание
                             <input type="text" th:field="${post.description}" class="form-control">
                         </label>
+                        <label for="city.id">Город</label>
+                        <select class="form-control" id="city.id" name="city.id">
+                            <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+                        </select>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" th:field="${post.visible}" class="form-check-input" id="visible">
