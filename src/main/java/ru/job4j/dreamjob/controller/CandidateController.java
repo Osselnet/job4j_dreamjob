@@ -39,11 +39,10 @@ public class CandidateController {
     }
 
     @PostMapping("/formAddCandidate")
-    public String addCandidate(@ModelAttribute Candidate candidate, Model model,
+    public String addCandidate(@ModelAttribute Candidate candidate,
                                @RequestParam("file") MultipartFile file) throws IOException {
         candidate.setPhoto(file.getBytes());
         candidateService.add(candidate);
-        //model.addAttribute("candidate", candidate);
         return "redirect:/candidates";
     }
     @GetMapping("/formUpdateCandidate/{candidateId}")
