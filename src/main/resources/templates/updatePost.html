@@ -40,13 +40,21 @@
                 Редатирование вакансии.
             </div>
             <div class="card-body">
-                <form th:action="@{/updatePost}" method="POST" th:object="${post}">
-                    <input type="hidden" name="id" th:field="*{id}"/>
+                <form th:action="@{/updatePost}" method="POST">
+                    <input type="hidden" name="id" th:field="${post.id}"/>
                     <div class="form-group">
                         <label for="name">Имя</label>
-                        <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
+                        <input type="text" class="form-control" name="name" id="name" th:field="${post.name}">
                         <label>Описание</label>
-                        <input type="text" th:field="*{description}" class="form-control">
+                        <input type="text" th:field="${post.description}" class="form-control">
+                        <label for="city.id">Город</label>
+                        <select class="form-control" id="city.id" name="city.id">
+                            <option th:each="city : ${cities}"
+                                    th:value="${city.id}"
+                                    th:text="${city.name}"
+                                    th:selected="${post.id == city.id}">
+                            </option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

@@ -40,19 +40,21 @@ public class PostController {
 
     @PostMapping("/formAddPost")
     public String addPost(@ModelAttribute Post post, City city) {
+        post.setCity(cityService.findById(city.getId()));
         postService.add(post);
-        cityService.findById(city.getId());
         return "redirect:/posts";
     }
 
     @GetMapping("/formUpdatePost/{postId}")
     public String formUpdatePost(Model model, @PathVariable("postId") int id) {
         model.addAttribute("post", postService.findById(id));
+        model.addAttribute("cities", cityService.getAllCities());
         return "updatePost";
     }
 
     @PostMapping("/updatePost")
-    public String updatePost(@ModelAttribute Post post) {
+    public String updatePost(@ModelAttribute Post post, City city) {
+        post.setCity(cityService.findById(city.getId()));
         postService.update(post);
         return "redirect:/posts";
     }
