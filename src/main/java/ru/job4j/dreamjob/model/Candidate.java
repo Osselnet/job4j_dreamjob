@@ -1,13 +1,14 @@
 package ru.job4j.dreamjob.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Candidate {
     private int id;
     private String name;
     private String description;
-    private LocalDate created = LocalDate.now();
+    private LocalDateTime created = LocalDateTime.now();
     private byte[] photo;
 
     public Candidate(int id, String name, String description) {
@@ -16,14 +17,20 @@ public class Candidate {
         this.description = description;
     }
 
+    public Candidate(int id, String name, String description, LocalDateTime created, byte[] photo) {
+        this(id, name, description);
+        this.created = created;
+        this.photo = photo;
+    }
+
     public Candidate() {
     }
 
-    public LocalDate getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
