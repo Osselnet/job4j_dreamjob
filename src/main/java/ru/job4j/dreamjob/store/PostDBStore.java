@@ -42,7 +42,7 @@ public class PostDBStore {
     public Post add(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "INSERT INTO post(name, description, city_id, visible) VALUES (?, ?, ?, ?, ?)",
+                     "INSERT INTO post(name, description, created, city_id, visible) VALUES (?, ?, ?, ?, ?)",
         PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, post.getName());
@@ -66,7 +66,7 @@ public class PostDBStore {
     public void update(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("UPDATE post set name = ?, "
-                     + "description = ?, , created = ?, city_id = ?, visible = ? where id = ?")
+                     + "description = ?, created = ?, city_id = ?, visible = ? where id = ?")
         ) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
