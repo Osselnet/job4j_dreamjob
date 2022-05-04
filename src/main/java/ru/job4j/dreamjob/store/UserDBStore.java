@@ -21,10 +21,10 @@ public class UserDBStore {
         Optional<User> result = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "INSERT INTO users(email, password) VALUES (?, ?)",
+                     "INSERT INTO users(name, password) VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
-            ps.setString(1, user.getEmail());
+            ps.setString(1, user.getName());
             ps.setString(2, user.getPassword());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
@@ -39,4 +39,23 @@ public class UserDBStore {
         return result;
     }
 
+    public Optional<User> findUserByNameAndPwd(String name, String password) {
+        Optional<User> result = Optional.empty();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "SELECT * FROM users WHERE name = ? and password = ?")
+        ) {
+            ps.setString(1, name);
+            ps.setString(2, password);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    result = Optional.of(new User(it.getString("name"),
+                            it.getString("password")));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
