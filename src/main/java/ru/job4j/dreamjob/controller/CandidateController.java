@@ -12,8 +12,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import ru.job4j.dreamjob.model.Candidate;
+import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.CandidateService;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @ThreadSafe
@@ -27,13 +29,15 @@ public class CandidateController {
     }
 
     @GetMapping("/candidates")
-    public String candidates(Model model) {
+    public String candidates(Model model, HttpSession session) {
         model.addAttribute("candidates", candidateService.findAll());
+        model.addAttribute("user", currentUser(session));
         return "candidates";
     }
 
     @GetMapping("/formAddCandidate")
-    public String formCandidate(Model model) {
+    public String formCandidate(Model model, HttpSession session) {
+        model.addAttribute("user", currentUser(session));
         model.addAttribute("candidate", new Candidate());
         return "addCandidate";
     }
@@ -65,5 +69,14 @@ public class CandidateController {
                 .contentLength(candidate.getPhoto().length)
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(new ByteArrayResource(candidate.getPhoto()));
+    }
+
+    private User currentUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        return user;
     }
 }
